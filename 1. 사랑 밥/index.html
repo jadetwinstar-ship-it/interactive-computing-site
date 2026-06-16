@@ -1,17 +1,105 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Sketch</title>
-
-    <link rel="stylesheet" type="text/css" href="style.css">
-
+    <title>1. 사랑 밥 — Interactive Computing</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.js"></script>
   </head>
-
   <body>
+    <div class="page">
+
+      <header class="header">
+        <span class="course-name">INTERACTIVE COMPUTING</span>
+        <span class="current-title">1. 사랑 밥</span>
+        <button class="menu-btn" id="menuBtn" aria-label="메뉴 열기">
+          <img src="../assets/menu-btn.svg" alt="">
+        </button>
+      </header>
+
+      <main class="main sketch-main">
+        <div id="sketch-container"></div>
+      </main>
+
+      <div class="overlay" id="overlay"></div>
+
+      <aside class="menu-panel" id="menuPanel" aria-hidden="true">
+        <button class="close-btn" id="closeBtn" aria-label="메뉴 닫기">
+          <img src="../assets/close-btn.svg" alt="">
+        </button>
+        <nav class="menu-nav">
+          <a class="menu-item" href="#" data-folder="1. 사랑 밥">1. 사랑 밥</a>
+          <a class="menu-item" href="#" data-folder="2. 감정">2. 감정</a>
+          <a class="menu-item" href="#" data-folder="3. 나의 그루">3. 나의 그루</a>
+          <a class="menu-item" href="#" data-folder="4. 랜덤 4분의1 원">4. 랜덤 4분의1 원</a>
+          <a class="menu-item" href="#" data-folder="5. 전통 하트">5. 전통 하트</a>
+          <a class="menu-item" href="#" data-folder="6. 마리포사">6. 마리포사</a>
+          <a class="menu-item" href="#" data-folder="7. 퍼즐 맞추기">7. 퍼즐 맞추기</a>
+          <a class="menu-item" href="#" data-folder="8. 열화상 카메라">8. 열화상 카메라</a>
+          <a class="menu-item" href="#" data-folder="9. 오이 타이핑">9. 오이 타이핑</a>
+          <a class="menu-item" href="#" data-folder="10. 태양 여정">10. 태양 여정</a>
+          <a class="menu-item" href="#" data-folder="11. 나의 그루2">11. 나의 그루2</a>
+          <a class="menu-item" href="#" data-folder="12. 칭찬해 주세요">12. 칭찬해 주세요</a>
+          <a class="menu-item" href="#" data-folder="13. 눈 깜빡 게임">13. 눈 깜빡 게임</a>
+        </nav>
+      </aside>
+
+    </div>
+
     <script src="sketch.js"></script>
+    <script>
+      (function () {
+        var container = document.getElementById('sketch-container');
+
+        function fit() {
+          var c = document.querySelector('canvas');
+          if (!c || !c.width) { requestAnimationFrame(fit); return; }
+          if (container && c.parentElement !== container) container.appendChild(c);
+          var hh = document.querySelector('.header').offsetHeight;
+          var availW = window.innerWidth;
+          var availH = window.innerHeight - hh;
+          var scale = Math.min(availW / c.width, availH / c.height) * 0.85;
+          c.style.width = Math.floor(c.width * scale) + 'px';
+          c.style.height = Math.floor(c.height * scale) + 'px';
+        }
+
+        requestAnimationFrame(fit);
+        window.addEventListener('resize', fit);
+      })();
+
+      var menuBtn = document.getElementById('menuBtn');
+      var closeBtn = document.getElementById('closeBtn');
+      var menuPanel = document.getElementById('menuPanel');
+      var overlay = document.getElementById('overlay');
+
+      menuBtn.addEventListener('click', openMenu);
+      closeBtn.addEventListener('click', closeMenu);
+      overlay.addEventListener('click', closeMenu);
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
+
+      function openMenu() {
+        menuPanel.classList.add('open');
+        overlay.classList.add('visible');
+        menuPanel.setAttribute('aria-hidden', 'false');
+      }
+      function closeMenu() {
+        menuPanel.classList.remove('open');
+        overlay.classList.remove('visible');
+        menuPanel.setAttribute('aria-hidden', 'true');
+      }
+
+      document.querySelectorAll('.menu-item').forEach(function (item) {
+        item.addEventListener('click', function (e) {
+          e.preventDefault();
+          var folder = item.dataset.folder;
+          window.location.href = '../' + encodeURIComponent(folder) + '/index.html';
+        });
+      });
+    </script>
   </body>
 </html>

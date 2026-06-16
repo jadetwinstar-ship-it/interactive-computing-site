@@ -198,7 +198,7 @@ function drawGame() {
   fill(...PINK);
   textAlign(LEFT, TOP);
   textSize(width * 0.042);
-  text(elapsedSeconds + 's', width * 0.03, height * 0.04);
+  text(elapsedSeconds + 's', width * 0.03, max(height * 0.04, 120));
 
   updateObstacles();
 

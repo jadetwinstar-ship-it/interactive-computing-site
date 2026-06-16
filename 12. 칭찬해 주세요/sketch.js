@@ -74,7 +74,7 @@ function computeLayout() {
   SW     = max(1.5, W * 0.0018);
 
   let fs = max(13, W * 0.018);
-  TEXT_BOTTOM_Y = H * 0.09 + fs * 1.6;
+  TEXT_BOTTOM_Y = max(H * 0.09, 130) + fs * 1.6;
 
   let plantCeiling = TEXT_BOTTOM_Y + H * 0.12;
   MAX_STEM = max(4, floor((hillPeakY() - plantCeiling) / PS));
@@ -102,7 +102,7 @@ function draw() {
 // ── Instruction text ──────────────────────────────────────────────
 
 function drawInstructionText() {
-  let ty = height * 0.09;
+  let ty = max(height * 0.09, 130);
   let fs = max(13, width * 0.018);
   let prefix  = "Make  ";
   let gesture = "2 thumbs up/ thumb up/ thumb down/ 2 thumbs down";
